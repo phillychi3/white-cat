@@ -27,7 +27,9 @@ public class ScheduledShutdown {
         if (now.equals(shutdownTime)) {
             WhiteCat.LOGGER.info("Scheduled shutdown time reached. Shutting down server.");
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            server.saveEverything(false, false, false);
             server.stopServer();
+            System.exit(0);
         }
     }
 }

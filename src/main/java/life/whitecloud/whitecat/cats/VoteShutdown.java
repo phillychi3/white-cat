@@ -137,6 +137,7 @@ public class VoteShutdown {
                         WhiteCat.LOGGER.error("Shutdown countdown interrupted", e);
                     }
                 }
+                currentServer.saveEverything(false, false, false);
                 currentServer.halt(false);
             });
         } else {

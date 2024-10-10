@@ -52,6 +52,10 @@ public class Config {
                         .comment("Message for shutdown countdown")
                         .define("shutdownCountdown", "Server shutting down in {seconds} seconds.");
 
+        private static final ForgeConfigSpec.ConfigValue<String> SHUTDOWN_CANCELLED = BUILDER
+                        .comment("Message when shutdown is cancelled")
+                        .define("shutdownCancelled", "tps is back to normal. Shutdown cancelled.");
+
         static final ForgeConfigSpec SPEC = BUILDER.build();
 
         public static double minTps;
@@ -65,6 +69,7 @@ public class Config {
         public static String votePassed;
         public static String voteFailed;
         public static String shutdownCountdown;
+        public static String shutdownCancelled;
 
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
@@ -79,5 +84,6 @@ public class Config {
                 votePassed = VOTE_PASSED.get();
                 voteFailed = VOTE_FAILED.get();
                 shutdownCountdown = SHUTDOWN_COUNTDOWN.get();
+                shutdownCancelled = SHUTDOWN_CANCELLED.get();
         }
 }
