@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import life.whitecloud.whitecat.WhiteCat;
+import life.whitecloud.whitecat.Config;
 import life.whitecloud.whitecat.util;
 
 @Mod.EventBusSubscriber(modid = WhiteCat.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -51,20 +52,22 @@ public class VoteShutdown {
         votedNo.clear();
         currentServer = source.getServer();
 
-        Component message = Component.literal("A vote to shut down server ")
-                .append(Component.literal("[YES]")
+        Component message = Component.literal(Config.voteStarted + " ")
+                .append(Component.literal("[" + Config.voteYes + "]")
                         .setStyle(Style.EMPTY
                                 .withColor(0x00FF00)
                                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/voteshutdown yes"))
                                 .withHoverEvent(
-                                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Vote Yes")))))
+                                        new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                Component.literal("Vote " + Config.voteYes)))))
                 .append(Component.literal(" or "))
-                .append(Component.literal("[NO]")
+                .append(Component.literal("[" + Config.voteNo + "]")
                         .setStyle(Style.EMPTY
                                 .withColor(0xFF0000)
                                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/voteshutdown no"))
                                 .withHoverEvent(
-                                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Vote No")))));
+                                        new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                Component.literal("Vote " + Config.voteNo)))));
 
         ;
         currentServer.getPlayerList().broadcastSystemMessage(util.broadcastPrefixedMessage(message), false);
@@ -94,10 +97,11 @@ public class VoteShutdown {
         }
 
         if (targetSet.add(playerName)) {
-            String voteType = voteYes ? "YES" : "NO";
-
+            String voteType = voteYes ? Config.voteYes : Config.voteNo;
             currentServer.getPlayerList().broadcastSystemMessage(
-                    util.broadcastPrefixedMessage(Component.literal(playerName + " has voted " + voteType + ".")),
+                    util.broadcastPrefixedMessage(Component.literal(Config.playerVoted
+                            .replace("{player}", playerName)
+                            .replace("{vote}", voteType))),
                     false);
 
             if (votedNo.size() > 0) {
@@ -117,14 +121,16 @@ public class VoteShutdown {
         if (passed) {
 
             currentServer.getPlayerList().broadcastSystemMessage(util.broadcastPrefixedMessage(
-                    Component.literal("Vote passed. Server shutting down in 10 seconds.")), false);
+                    Component.literal(Config.votePassed.replace("{seconds}", "10"))), false);
             WhiteCat.LOGGER.info("Vote passed. Server shutting down in 10 seconds.");
             currentServer.execute(() -> {
                 for (int i = 10; i > 0; i--) {
                     final int secondsLeft = i;
 
                     currentServer.getPlayerList().broadcastSystemMessage(util.broadcastPrefixedMessage(
-                            Component.literal("Server shutting down in " + secondsLeft + " seconds.")), false);
+                            Component.literal(
+                                    Config.shutdownCountdown.replace("{seconds}", String.valueOf(secondsLeft)))),
+                            false);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -136,7 +142,7 @@ public class VoteShutdown {
         } else {
 
             currentServer.getPlayerList().broadcastSystemMessage(
-                    util.broadcastPrefixedMessage(Component.literal("Vote failed. The server will not shut down.")),
+                    util.broadcastPrefixedMessage(Component.literal(Config.voteFailed)),
                     false);
             WhiteCat.LOGGER.info("Vote failed. The server will not shut down.");
         }

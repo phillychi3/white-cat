@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Style;
 
 public class util {
     public static Component broadcastPrefixedMessage(Component message) {
-        Component prefixedMessage = Component.literal("[white cat]")
+        Component prefixedMessage = Component.literal(Config.prefix)
                 .withStyle(Style.EMPTY.withColor(0xFFFF55))
                 .append(Component.literal(": ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
                 .append(message.copy().withStyle(Style.EMPTY.withColor(0xFFFFFF)));

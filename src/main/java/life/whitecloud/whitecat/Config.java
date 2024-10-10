@@ -20,16 +20,64 @@ public class Config {
                         .comment("Daily server shutdown time (HH:mm)")
                         .define("shutdownTime", "04:00");
 
+        private static final ForgeConfigSpec.ConfigValue<String> PREFIX = BUILDER
+                        .comment("Prefix")
+                        .define("prefix", "[白貓]");
+
+        private static final ForgeConfigSpec.ConfigValue<String> VOTE_STARTED = BUILDER
+                        .comment("Message when a vote is started")
+                        .define("voteStarted", "A vote to shut down the server has started! Click");
+
+        private static final ForgeConfigSpec.ConfigValue<String> VOTE_YES = BUILDER
+                        .comment("Text for voting yes")
+                        .define("voteYes", "YES");
+
+        private static final ForgeConfigSpec.ConfigValue<String> VOTE_NO = BUILDER
+                        .comment("Text for voting no")
+                        .define("voteNo", "NO");
+
+        private static final ForgeConfigSpec.ConfigValue<String> PLAYER_VOTED = BUILDER
+                        .comment("Message when a player votes")
+                        .define("playerVoted", "{player} has voted {vote}.");
+
+        private static final ForgeConfigSpec.ConfigValue<String> VOTE_PASSED = BUILDER
+                        .comment("Message when the vote passes")
+                        .define("votePassed", "Vote passed. Server shutting down in {seconds} seconds.");
+
+        private static final ForgeConfigSpec.ConfigValue<String> VOTE_FAILED = BUILDER
+                        .comment("Message when the vote fails")
+                        .define("voteFailed", "Vote failed. The server will not shut down.");
+
+        private static final ForgeConfigSpec.ConfigValue<String> SHUTDOWN_COUNTDOWN = BUILDER
+                        .comment("Message for shutdown countdown")
+                        .define("shutdownCountdown", "Server shutting down in {seconds} seconds.");
+
         static final ForgeConfigSpec SPEC = BUILDER.build();
 
         public static double minTps;
         public static int lowTpsThreshold;
         public static String shutdownTime;
+        public static String prefix;
+        public static String voteStarted;
+        public static String voteYes;
+        public static String voteNo;
+        public static String playerVoted;
+        public static String votePassed;
+        public static String voteFailed;
+        public static String shutdownCountdown;
 
         @SubscribeEvent
         static void onLoad(final ModConfigEvent event) {
                 minTps = MIN_TPS.get();
                 lowTpsThreshold = LOW_TPS_THRESHOLD.get();
                 shutdownTime = SHUTDOWN_TIME.get();
+                prefix = PREFIX.get();
+                voteStarted = VOTE_STARTED.get();
+                voteYes = VOTE_YES.get();
+                voteNo = VOTE_NO.get();
+                playerVoted = PLAYER_VOTED.get();
+                votePassed = VOTE_PASSED.get();
+                voteFailed = VOTE_FAILED.get();
+                shutdownCountdown = SHUTDOWN_COUNTDOWN.get();
         }
 }
