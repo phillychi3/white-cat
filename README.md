@@ -1,6 +1,6 @@
 # white-cat
 
-A useful forge server tool
+A useful tool for forge server 
 
 1. Close server when tps low
 2. Auto close server every day
