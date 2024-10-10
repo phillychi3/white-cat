@@ -20,13 +20,21 @@ public class Config {
                         .comment("Daily server shutdown time (HH:mm)")
                         .define("shutdownTime", "04:00");
 
+        private static final ForgeConfigSpec.ConfigValue<String> SHUTDOWN_REMIND = BUILDER
+                        .comment("Message to remind players of the shutdown")
+                        .define("shutdownremind", "Server will restart in 1 minute");
+
+        private static final ForgeConfigSpec.BooleanValue AUTORESTART = BUILDER
+                        .comment("on/off autorestart")
+                        .define("autorestart", false);
+
         private static final ForgeConfigSpec.ConfigValue<String> PREFIX = BUILDER
                         .comment("Prefix")
                         .define("prefix", "[白貓]");
 
         private static final ForgeConfigSpec.ConfigValue<String> VOTE_STARTED = BUILDER
                         .comment("Message when a vote is started")
-                        .define("voteStarted", "A vote to shut down the server has started! Click");
+                        .define("voteStarted", "A vote to restart the server! Click");
 
         private static final ForgeConfigSpec.ConfigValue<String> VOTE_YES = BUILDER
                         .comment("Text for voting yes")
@@ -60,7 +68,9 @@ public class Config {
 
         public static double minTps;
         public static int lowTpsThreshold;
+        public static boolean autorestart;
         public static String shutdownTime;
+        public static String shutdownremind;
         public static String prefix;
         public static String voteStarted;
         public static String voteYes;
@@ -75,7 +85,9 @@ public class Config {
         static void onLoad(final ModConfigEvent event) {
                 minTps = MIN_TPS.get();
                 lowTpsThreshold = LOW_TPS_THRESHOLD.get();
+                autorestart = AUTORESTART.get();
                 shutdownTime = SHUTDOWN_TIME.get();
+                shutdownremind = SHUTDOWN_REMIND.get();
                 prefix = PREFIX.get();
                 voteStarted = VOTE_STARTED.get();
                 voteYes = VOTE_YES.get();
